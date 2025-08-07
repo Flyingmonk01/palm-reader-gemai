@@ -1,5 +1,5 @@
 'use client';
-
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import axios from 'axios';
@@ -16,6 +16,7 @@ import type {
   HandLandmarker as HandLandmarkerType,
   FilesetResolver as FilesetResolverType,
 } from '@mediapipe/tasks-vision';
+import { useStore } from '../lib/store';
 
 const loadingMessages = [
   "Analyzing the lines of destiny...",
@@ -38,12 +39,14 @@ declare global {
 }
 
 export default function Home() {
-  const [reading, setReading] = useState<string | null>(null);
+  const [reading, setReading] = useState<object | null>(null);
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [ipfsHash, setIpfsHash] = useState<string | null>(null);
   const [loadingMessage, setLoadingMessage] = useState(loadingMessages[0]);
+  const [language, setLanguage] = useState<string>('english'); 
+  const { report, setReport } = useStore();
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -84,13 +87,26 @@ export default function Home() {
       const isValid = await validateHand(imageUrl);
       console.log("🧠 Hand validation result:", isValid);
       if (!isValid) {
-        setError("No se detectó una mano clara en la imagen.");
+        setError("No Hand Detectected. Please upload a clear image of your palm.");
         return;
       }
 
-      const response = await axios.post<{ reading: string }>('/api/analyze', { ipfsHash });
+      const response = await axios.post<{ reading: any }>('/api/analyze', { ipfsHash, language });
+      if(response.data.reading.message){
+        setError(response.data.reading.message);
+        setIsLoading(false);
+        return;
+      }
+      
       setReading(response.data.reading);
       saveReading(ipfsHash, response.data.reading);
+      setReport({
+        love: response.data.reading.love,
+        career: response.data.reading.career,
+        health: response.data.reading.health, 
+        future: response.data.reading.future
+      });
+      console.log("📜 Reading saved:", response.data.reading);
     } catch (error) {
       console.error('❌ Error analyzing palm:', error);
       setError('An unexpected error occurred while analyzing the image.');
@@ -99,7 +115,7 @@ export default function Home() {
     }
   };
 
-  const saveReading = (ipfsHash: string, reading: string) => {
+  const saveReading = (ipfsHash: string, reading: object) => {
     const newReading = {
       ipfsHash,
       timestamp: new Date().toISOString(),
@@ -184,6 +200,19 @@ export default function Home() {
       {/* How to Use Section */}
       <HowToUse />
       
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 flex justify-end mt-4">
+        <select
+          value={language}
+          onChange={e => setLanguage(e.target.value)}
+          className="border rounded-lg px-3 py-2 bg-white text-gray-700 shadow-sm"
+        >
+          <option value="English">English</option>
+          <option value="हिन्दी">हिन्दी</option>
+          <option value="Español">Español</option>
+          <option value="fFrançaisr">Français</option>
+        </select>
+      </div>
+      
       {/* Main Content */}
       <motion.main 
         className="container mx-auto px-4 sm:px-6 lg:px-8 py-16"
@@ -193,7 +222,9 @@ export default function Home() {
       >
         <div className="max-w-5xl mx-auto">
           <Tabs defaultValue="current" className="w-full">
-            <TabsList className="grid w-full grid-cols-2 bg-white/70 backdrop-blur-sm rounded-2xl p-2 border border-purple-200/50 shadow-lg">
+            <TabsList className=" relative grid w-full grid-cols-2 bg-white/70 backdrop-blur-sm rounded-2xl border border-purple-200/50 shadow-lg overflow-hidden">
+              
+              
               <TabsTrigger 
                 value="current" 
                 className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-500 data-[state=active]:to-indigo-500 data-[state=active]:text-white rounded-xl font-medium transition-all duration-300 flex items-center gap-2"
@@ -208,6 +239,9 @@ export default function Home() {
                 <History className="w-4 h-4" />
                 Past Readings
               </TabsTrigger>
+            
+            
+            
             </TabsList>
             
             <TabsContent value="current" className="mt-8">

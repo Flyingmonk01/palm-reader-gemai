@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Twitter, Mail, ExternalLink, Sparkles, Heart } from 'lucide-react';
+import { Mail, ExternalLink, Sparkles, Heart } from 'lucide-react';
 import Link from 'next/link';
 
 const Footer: React.FC = () => {
@@ -53,7 +53,7 @@ const Footer: React.FC = () => {
             <ul className="space-y-4">
               <li>
                 <Link 
-                  href="https://ehernandezvilla.github.io/" 
+                  href="https://nitin-sohal-portfolio.netlify.app/" 
                   className="group flex items-center gap-2 text-gray-300 hover:text-purple-300 transition-colors"
                 >
                   <ExternalLink className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -68,14 +68,6 @@ const Footer: React.FC = () => {
                   How It Works
                 </Link>
               </li>
-              <li>
-                <Link 
-                  href="#" 
-                  className="group flex items-center gap-2 text-gray-300 hover:text-purple-300 transition-colors"
-                >
-                  Privacy Policy
-                </Link>
-              </li>
             </ul>
           </motion.div>
 
@@ -87,27 +79,17 @@ const Footer: React.FC = () => {
           >
             <h4 className="text-lg font-semibold mb-6 text-purple-300">Let&apos;s Connect</h4>
             <div className="space-y-4">
-              <a 
-                href="https://x.com/ehernandezvilla" 
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group flex items-center gap-3 p-3 rounded-xl bg-gradient-to-r from-slate-800/50 to-slate-700/50 border border-slate-700/50 hover:border-purple-500/50 transition-all duration-300 hover:scale-105"
-              >
-                <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-lg flex items-center justify-center">
-                  <Twitter className="w-4 h-4 text-white" />
-                </div>
-                <span className="text-gray-300 group-hover:text-white transition-colors">@ehernandezvilla</span>
-              </a>
+              
               
               <a 
-                href="mailto:eduardo.hernandez@bakslash.com"
+                href="mailto:nitin19sohal@gmail.com"
                 className="group flex items-center gap-3 p-3 rounded-xl bg-gradient-to-r from-slate-800/50 to-slate-700/50 border border-slate-700/50 hover:border-purple-500/50 transition-all duration-300 hover:scale-105"
               >
                 <div className="w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
                   <Mail className="w-4 h-4 text-white" />
                 </div>
                 <span className="text-gray-300 group-hover:text-white transition-colors text-sm">
-                  eduardo.hernandez@bakslash.com
+                nitin19sohal@gmail.com
                 </span>
               </a>
             </div>
@@ -126,13 +108,13 @@ const Footer: React.FC = () => {
               © {currentYear} Palm Reader AI. Crafted with <Heart className="inline w-4 h-4 text-red-400 mx-1" /> for the DEV Community.
             </p>
             
-            <div className="flex items-center gap-4 text-xs text-gray-500">
+            {/* <div className="flex items-center gap-4 text-xs text-gray-500">
               <span>Built with Next.js</span>
               <span>•</span>
               <span>Powered by Pinata</span>
               <span>•</span>
               <span>AI Enhanced</span>
-            </div>
+            </div> */}
           </div>
         </motion.div>
       </div>

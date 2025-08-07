@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sparkles, Menu, X, Eye, History, Info, Github, ExternalLink } from 'lucide-react';
+import { Sparkles, Menu, X, Eye, History, Github, ExternalLink } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from "@/components/ui/button";
 
@@ -31,13 +31,7 @@ const Navbar: React.FC = () => {
       href: '#past',
       icon: <History className="w-4 h-4" />,
       description: 'View your reading history'
-    },
-    {
-      name: 'How It Works',
-      href: '#how-to-use',
-      icon: <Info className="w-4 h-4" />,
-      description: 'Learn about the process'
-    },
+    }
   ];
 
   const scrollToSection = (href: string) => {
@@ -115,7 +109,7 @@ const Navbar: React.FC = () => {
             {/* Desktop CTA & External Links */}
             <div className="hidden lg:flex items-center gap-3">
               <Link
-                href="https://github.com/ehernandezvilla"
+                href="https://github.com/nitinsohal"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="p-2 text-gray-600 hover:text-purple-600 transition-colors duration-200 rounded-lg hover:bg-purple-50"
@@ -124,7 +118,7 @@ const Navbar: React.FC = () => {
               </Link>
               
               <Link
-                href="https://ehernandezvilla.github.io/"
+                href="https://nitin-sohal-portfolio.netlify.app/"
                 target="_blank"
                 rel="noopener noreferrer"
               >
