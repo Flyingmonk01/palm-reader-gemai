@@ -8,7 +8,7 @@ const ai = new GoogleGenAI({
   location: "global",
 });
 
-const model = "gemini-2.5-flash-lite";
+const model = "gemini-2.5-pro";
 const generationConfig = {
   maxOutputTokens: 65535,
   temperature: 1,
@@ -62,7 +62,7 @@ export async function POST(request: NextRequest) {
     const base64 = buffer.toString("base64");
 
     // 2. Build prompt
-    const palmPrompt = buildPrompt(language);
+    // const palmPrompt = buildPrompt(language);
     // const array=['love', 'career', 'health', 'future'];
 
     // const palmPrompt1 = buildPrompt1('love');
@@ -77,11 +77,14 @@ export async function POST(request: NextRequest) {
 
     // 4. Send to Gemini
     
-    const [love, career, health, future] = await Promise.all([
+    const [love, career, health, future,life_purpose,compatibility,travel] = await Promise.all([
       sendMessage([msg1Image1, { text: buildPrompt1("love",language) }]),
       sendMessage([msg1Image1, { text: buildPrompt1("career",language) }]),
       sendMessage([msg1Image1, { text: buildPrompt1("health",language) }]),
       sendMessage([msg1Image1, { text: buildPrompt1("future",language) }]),
+      sendMessage([msg1Image1, { text: buildPrompt1("life_purpose",language) }]),
+      sendMessage([msg1Image1, { text: buildPrompt1("compatibility",language) }]),
+      sendMessage([msg1Image1, { text: buildPrompt1("travel",language) }]),
     ]);
 
     // `results` is an array of responses from sendMessage for each topic
@@ -89,7 +92,7 @@ export async function POST(request: NextRequest) {
     console.log("career-->", career);
     console.log("health-->", health);
     console.log("future-->", future);
-    return NextResponse.json({ reading:{love,career,health,future} });
+    return NextResponse.json({ reading:{love,career,health,future,life_purpose,compatibility,travel} });
 
 
     // const palmReadingRaw = await sendMessage([
@@ -109,7 +112,7 @@ export async function POST(request: NextRequest) {
     // }
 
     // console.log("🌟 Palm Reading:", reading);
-    return NextResponse.json({ reading });
+    // return NextResponse.json({ reading });
   } catch (error) {
     console.error("❌ Error:", error);
     return NextResponse.json(
@@ -119,37 +122,37 @@ export async function POST(request: NextRequest) {
   }
 }
 
-function buildPrompt(language: string): string {
-  console.log("language selected-->", language);
-  const basePrompt = `You are a mystical palm reader. A user has uploaded an image of their palm. Analyze the palm lines carefully and give a unique and imaginative palm reading.
+// function buildPrompt(language: string): string {
+//   console.log("language selected-->", language);
+//   const basePrompt = `You are a mystical palm reader. A user has uploaded an image of their palm. Analyze the palm lines carefully and give a unique and imaginative palm reading.
 
-Cover the following:
-- Love life
-- Career path
-- Health tendencies
-- Overall future
+// Cover the following:
+// - Love life
+// - Career path
+// - Health tendencies
+// - Overall future
 
-Respond in full sentences with warmth, empathy, and a touch of magic. End with an uplifting conclusion. Avoid generic phrases. Make the tone engaging and unique.
-Also note one thing is the image is not of hand then give this kind of reponse
-{
-  message:"Issue With the image"
-}
-like if the lighting is bad or the image is not of a hand or palm, etc.
-basically the image is not of a hand or palm then give this kind of response with proper message okay but you have to give the result only about the palm reading and nothing more okay
+// Respond in full sentences with warmth, empathy, and a touch of magic. End with an uplifting conclusion. Avoid generic phrases. Make the tone engaging and unique.
+// Also note one thing is the image is not of hand then give this kind of reponse
+// {
+//   message:"Issue With the image"
+// }
+// like if the lighting is bad or the image is not of a hand or palm, etc.
+// basically the image is not of a hand or palm then give this kind of response with proper message okay but you have to give the result only about the palm reading and nothing more okay
 
 
-If possible, return the response in structured JSON like this:
-{
-  "love": "...",
-  "career": "...",
-  "health": "...",
-  "future": "...",
-  "summary": "..."
-}`;
+// If possible, return the response in structured JSON like this:
+// {
+//   "love": "...",
+//   "career": "...",
+//   "health": "...",
+//   "future": "...",
+//   "summary": "..."
+// }`;
 
-  if (language == "en") return basePrompt;
-  return `Respond ONLY in ${language}. Do not translate the JSON keys, only their values.\n\n${basePrompt}`;
-}
+//   if (language == "en") return basePrompt;
+//   return `Respond ONLY in ${language}. Do not translate the JSON keys, only their values.\n\n${basePrompt}`;
+// }
 
 
 
@@ -166,11 +169,15 @@ IMPORTANT:
   "message": "Issue With the image"
 }
 4. MOST IMPORTANT: Return ONLY a string of 700-900 words—nothing else.
-5. DO NOT reuse any previous instructions or formats. This prompt is to be treated as a new, independent request.
+5. DO NOT reuse any previous instructions or formats. This prompt is to be treated as a new, independent request. Just Remmeber only one thing that if image is same only then give similar reposonse or else give a new response which diffrent for the other + and totally depend on the image okay
 6. Respond ONLY in ${language}. Do not use any other language.
-7. You must append an inline SVG at the end of the response that visually represents the theme (emotion) of the reading. It should be a basic but meaningful illustration such as a heart for love, a star or sun for future, a shield or leaf for health, or a mountain or path for career. Return this SVG code as part of the plain text string, NOT as an image or markdown link.
 
-Do not generate palm reading if the image is invalid. But first, carefully check the image to determine if it’s valid before returning an invalid response.
+7. Try to make a story out of it there should be a flow in the reading, like a story, not just random lines.
+8. The content you give me must have a have a positive and a bit of negative too and if there you put negative then there must be a remedy for this about that neagtive thing like at the last para there should be some sort of remedy about that.
+9. Also the ${language} words you give must be every understandable to those people dont know ${language} very well so use simple words and sentences. just like you are talking to a 10 year old kid. Use as much creaactivity as you can in the reading and make it very engaging and interesting to read. Use simple words and sentences that are easy to understand, as if explaining to a 10-year-old child. Use as much creativity as you can in the reading and make it very engaging and interesting to read.
+10. Use very simple and easy words so even someone who doesn’t know ${language} well can understand it—like you are talking to a 10-year-old. Make it creative, engaging, and interesting to read.
+11. Language must be simple, clear, and friendly, while keeping the content engaging so the reader feels curious and involved from start to finish.
+Do not generate palm reading if the image is invalid. But first, carefully check the image to determine if it's valid before returning an invalid response.
 `;
 
   if (type === "love") {
@@ -181,9 +188,7 @@ As I observe your palm, a gentle warmth radiates from the Heart Line — a deep,
 
 Your heart is both your strength and your teacher. It will lead you not only to love another deeply but to also discover love for yourself in the process.
 
-<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg">
-  <path d="M50 80 C20 50, 20 20, 50 35 C80 20, 80 50, 50 80 Z" fill="red"/>
-</svg>
+
 `;
   }
 
@@ -195,9 +200,7 @@ Your palm is a canvas of ambition, purpose, and long-term growth. The Fate Line 
 
 Your career path is not just about success, but about legacy. You are here to create, mentor, lead, or build something that outlasts you. Follow what feels meaningful, not just profitable—your hand favors purpose over prestige.
 
-<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg">
-  <path d="M50 10 L90 90 H10 Z" fill="orange"/>
-</svg>
+
 `;
   }
 
@@ -209,10 +212,7 @@ Your Life Line is deep and gracefully curved, a powerful indicator of strong lif
 
 You're not just built to survive—you're here to thrive, with mindfulness as your medicine.
 
-<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg">
-  <circle cx="50" cy="50" r="40" fill="green" />
-  <path d="M35 50 L45 60 L65 40" stroke="white" stroke-width="5" fill="none" />
-</svg>
+
 `;
   }
 
@@ -224,11 +224,44 @@ The lines in your hand shimmer with possibility, like constellations waiting to 
 
 Your future is already whispering to you. All you have to do is listen.
 
-<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg">
-  <polygon points="50,15 61,70 95,35 5,35 39,70" fill="gold"/>
-</svg>
+
 `;
   }
+  if (type === "life_purpose") {
+    return `${imageValidation}
+  The lines in your palm reveal a profound truth—your life is not accidental. Your Fate Line runs deep and steady, suggesting a soul guided by a higher calling. You're someone destined to leave an imprint, to inspire others through your journey.
+  
+  You possess a rare clarity in direction. Even during uncertain times, your inner compass points you forward. The Head Line and Heart Line converge gently, showing you're not just a thinker but also a feeler—someone who balances logic and passion.
+  
+  Trust your instincts. The universe has etched its intentions into your hands. Every decision you make is a thread weaving the fabric of your purpose.
+  
+
+  `;
+  }
+  
+  if (type === "compatibility") {
+    return `${imageValidation}
+  Your palm speaks the language of connection. The Heart Line flows gracefully across your hand, revealing deep emotional intelligence and a strong capacity for empathy. You connect easily with others—but you're selective with your heart.
+  
+  The Mount of Venus is prominent, symbolizing warmth, sensuality, and loyalty. You're someone who craves meaningful connection and offers unwavering support in return. Love, for you, is not fleeting—it's soulful and magnetic.
+  
+  If you're already with someone, this reading suggests a bond built to last. If you're seeking love, trust the pull of intuition. Your lines show that the right person will recognize your light and mirror it back.
+  
+
+  `;
+  }
+  
+  if (type === "travel") {
+    return `${imageValidation}
+  Wanderlust runs through your lifelines. The Travel Lines on your palm radiate outward—some long, others short—hinting at frequent journeys and meaningful movement. Your spirit is nomadic, always seeking discovery and growth.
+  
+  The Life Line shows subtle breaks and branches—often a sign of change, relocation, and transformation. Travel for you isn't just about places; it's about people, wisdom, and expanding your perspective.
+  
+  Whether you're drawn to mountains, oceans, or ancient cities, your hand reveals that travel will play a pivotal role in shaping your identity and purpose.
+
+  `;
+  }
+  
 
   return "Type not recognized.";
 }

@@ -15,7 +15,7 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Palm Reader AI",
+  title: "Life Coach",
   description: "Pinata DEV Challenge - Palm Reader AI",
 };
 

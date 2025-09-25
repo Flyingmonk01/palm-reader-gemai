@@ -27,7 +27,7 @@ const Footer: React.FC = () => {
                 <Sparkles className="w-5 h-5 text-white" />
               </div>
               <h3 className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-indigo-400 bg-clip-text text-transparent">
-                Palm Reader AI
+                Life Coach
               </h3>
             </div>
             <p className="text-gray-300 text-lg leading-relaxed max-w-md mb-8">
@@ -39,7 +39,7 @@ const Footer: React.FC = () => {
             {/* Tech badge */}
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-800/50 to-indigo-800/50 rounded-full border border-purple-700/30 backdrop-blur-sm">
               <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-              <span className="text-sm text-gray-300">Powered by AI & built for DEV Challenge</span>
+              <span className="text-sm text-gray-300">Powered by AI</span>
             </div>
           </motion.div>
 
@@ -105,7 +105,7 @@ const Footer: React.FC = () => {
         >
           <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
             <p className="text-gray-400 text-sm">
-              © {currentYear} Palm Reader AI. Crafted with <Heart className="inline w-4 h-4 text-red-400 mx-1" /> for the DEV Community.
+              © {currentYear} Life Coach. Crafted with <Heart className="inline w-4 h-4 text-red-400 mx-1" />
             </p>
             
             {/* <div className="flex items-center gap-4 text-xs text-gray-500">

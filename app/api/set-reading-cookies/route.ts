@@ -1,6 +1,6 @@
 // app/api/set-reading-cookies/route.ts
 import { NextResponse } from 'next/server';
-import { cookies } from 'next/headers';
+// import { cookies } from 'next/headers';
 
 export async function POST(request: Request) {
   const { love = '', career = '', health = '', future = '' } = await request.json();

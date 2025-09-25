@@ -46,6 +46,7 @@ export default function Home() {
   const [ipfsHash, setIpfsHash] = useState<string | null>(null);
   const [loadingMessage, setLoadingMessage] = useState(loadingMessages[0]);
   const [language, setLanguage] = useState<string>('english'); 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { report, setReport } = useStore();
 
   useEffect(() => {
@@ -84,12 +85,12 @@ export default function Home() {
     setIsLoading(true);
     setError(null);
     try {
-      const isValid = await validateHand(imageUrl);
-      console.log("🧠 Hand validation result:", isValid);
-      if (!isValid) {
-        setError("No Hand Detectected. Please upload a clear image of your palm.");
-        return;
-      }
+      // const isValid = await validateHand(imageUrl);
+      // console.log("🧠 Hand validation result:", isValid);
+      // if (!isValid) {
+      //   setError("No Hand Detectected. Please upload a clear image of your palm.");
+      //   return;
+      // }
 
       const response = await axios.post<{ reading: any }>('/api/analyze', { ipfsHash, language });
       if(response.data.reading.message){
@@ -104,7 +105,10 @@ export default function Home() {
         love: response.data.reading.love,
         career: response.data.reading.career,
         health: response.data.reading.health, 
-        future: response.data.reading.future
+        future: response.data.reading.future,
+        life_purpose:response.data.reading.life_purpose,
+        compatibility:response.data.reading.compatibility,
+        travel:response.data.reading.travel
       });
       console.log("📜 Reading saved:", response.data.reading);
     } catch (error) {
@@ -183,11 +187,11 @@ export default function Home() {
         >
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-100 to-indigo-100 rounded-full text-purple-700 font-medium mb-8">
             <Sparkles className="w-4 h-4" />
-            <span>Powered by AI & Built for DEV Challenge</span>
+            {/* <span>Powered by AI & Built for DEV Challenge</span> */}
           </div>
           
           <h1 className="text-5xl md:text-7xl font-bold bg-gradient-to-r from-purple-600 via-violet-600 to-indigo-600 bg-clip-text text-transparent mb-6">
-            Palm Reader AI
+            Life Coach
           </h1>
           
           <p className="text-xl md:text-2xl text-gray-600 max-w-3xl mx-auto mb-12 leading-relaxed">

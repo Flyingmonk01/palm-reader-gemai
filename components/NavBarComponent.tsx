@@ -70,7 +70,7 @@ const Navbar: React.FC = () => {
               </div>
               <div className="hidden sm:block">
                 <h1 className="text-xl font-bold bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent">
-                  Palm Reader AI
+                  Life Coach
                 </h1>
                 <p className="text-xs text-gray-500 -mt-1">Powered by AI</p>
               </div>
@@ -177,7 +177,7 @@ const Navbar: React.FC = () => {
                 {/* Mobile External Links */}
                 <div className="pt-4 border-t border-purple-200/50 space-y-3">
                   <Link
-                    href="https://github.com/ehernandezvilla"
+                    href="https://github.com/NitinSohal"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center gap-3 p-3 rounded-xl text-gray-700 hover:text-purple-600 hover:bg-purple-50 transition-colors duration-200"
@@ -188,7 +188,7 @@ const Navbar: React.FC = () => {
                   </Link>
                   
                   <Link
-                    href="https://ehernandezvilla.github.io/"
+                    href="https://nitin-sohal-portfolio.netlify.app/"
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={() => setIsMobileMenuOpen(false)}

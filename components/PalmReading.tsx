@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Sparkles, Eye, Volume2, VolumeX, Copy, Check } from 'lucide-react'
@@ -11,6 +12,18 @@ interface PalmReadingProps {
 const PalmReading: React.FC<PalmReadingProps> = ({ reading }) => {
     const [isPlaying, setIsPlaying] = useState(false)
     const [isCopied, setIsCopied] = useState(false)
+    const [showConfirm, setShowConfirm] = useState(false);
+
+    const handlePaymentClick = () => {
+        setShowConfirm(true);
+      };
+    
+      const handleConfirmPayment = () => {
+        setShowConfirm(false);
+        alert("✅ Payment successful!"); // Dummy success
+        handlereportredirect();
+      };
+
     const router = useRouter()
     const handleCopyReading = async () => {
         try {
@@ -100,20 +113,20 @@ const PalmReading: React.FC<PalmReadingProps> = ({ reading }) => {
     const handlereportredirect = async () => {
       if (!reading) return;
     
-      const res = await fetch('/api/set-reading-cookies', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          love: reading.love || '',
-          career: reading.career || '',
-          health: reading.health || '',
-          future: reading.future || '',
-        }),
-      });
+    //   const res = await fetch('/api/set-reading-cookies', {
+    //     method: 'POST',
+    //     headers: { 'Content-Type': 'application/json' },
+    //     body: JSON.stringify({
+    //       love: reading.love || '',
+    //       career: reading.career || '',
+    //       health: reading.health || '',
+    //       future: reading.future || '',
+    //     }),
+    //   });
     
-      if (res.ok) {
+    //   if (res.ok) {
         router.push('/report');
-      }
+    //   }
     };
 
 
@@ -276,7 +289,36 @@ const PalmReading: React.FC<PalmReadingProps> = ({ reading }) => {
                         </div>
                     </motion.div>
 
-                    <button onClick={handlereportredirect}>Click</button>
+                    <Button
+        onClick={handlePaymentClick}
+        size="lg"
+        className="mt-8 w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-semibold rounded-2xl shadow-lg hover:from-purple-700 hover:to-indigo-700 transition-all duration-200"
+      >
+        Unlock your premium report
+      </Button>
+
+      {showConfirm && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+          <div className="bg-white p-6 rounded-xl shadow-lg w-96 text-center">
+            <h2 className="text-xl font-bold mb-4">Confirm Payment</h2>
+            <p className="mb-6">Pay INR 500 to unlock your premium palm report.</p>
+            <div className="flex justify-center gap-4">
+              <button
+                onClick={handleConfirmPayment}
+                className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600"
+              >
+                Pay Now
+              </button>
+              <button
+                onClick={() => setShowConfirm(false)}
+                className="bg-gray-300 px-4 py-2 rounded-lg hover:bg-gray-400"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
                     {/* Bottom decoration */}
                     <motion.div
